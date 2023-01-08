@@ -112,9 +112,20 @@ public class RelationBinaire {
      action : construit une copie de r
      */
     public RelationBinaire(RelationBinaire r){
-        this n = r.n;
-        this m = r.m;
-        this.matAdj = r.matAdj;
+        this.n = r.n;
+        this.m = r.m;
+        int nb=this.n
+        this.matAdj=new boolean[nb][nb] ;
+        this.tabSucc=new EE[nb];
+        for (int i=0;i<nb ;i++ ) {
+            this.tabSucc[i]=new EE(r.tabSucc[i]);
+        }
+        for (int i=0;i<nb;i++){
+            for (int j=0;j<nb;j++){
+                this.matAdj[i][j]=r.matAdj[i][j];
+            }
+        }
+        
     }
 
 
@@ -129,9 +140,49 @@ public class RelationBinaire {
      contenant des '0' et des '1' (plus lisibles que des 'V' et des 'F') et sa définition
      en extension (ensemble de couples {(..,..),(..,..), ...})
      */
-    public String toString(){
-        throw new RuntimeException("La fonction n'est pas encore implémentée !");
+     public String toString(){
+      int nb=this.n;
+      String res="";
+      for (int i=0;i<nb ;i++ ) {
+        res+="{";
+        for (int j=0;j<nb ;j++ ) {
+          if(this.matAdj[i][j]){
+            if(j==0){
+              res+="1";
+            }
+            else{
+              res+=",1";
+            }
+          }
+          else{
+            if(j==0){
+              res+="0";
+            }
+            else{
+              res+=",0";
+            }
+          }
+        }
+        res+="}\n";
+      }
+      res+="\n{";
+      boolean premier=true;
+      for (int i=0;i<nb ;i++ ) {
+        for (int j=0;j<nb ;j++ ){
+          if(this.tabSucc[i].contient(j)){
+            if(premier)res+="(";
+            else{
+              res+=",(";
+            }
+            res+=i+","+j+")";
+            premier=false;
+          }
+        }
+      }
+      res+="}";
+      return res;
     }
+
 
     //______________________________________________
 
@@ -148,12 +199,37 @@ public class RelationBinaire {
      "implique"et "equivalent" sont numérotés de 1 à 5 dans cet ordre
      */
 
-    public static boolean[][] opBool(boolean[][] m1, boolean[][] m2, int numConnecteur)
-
-    {
-        throw new RuntimeException("La fonction n'est pas encore implémentée !");
-
+    public static boolean[][] opBool(boolean[][] m1, boolean[][] m2, int numConnecteur){
+      boolean [][] MatB=new boolean[m1.length][m1.length];
+      for (int i=0;i<m1.length ;i++ ) {
+        for (int j=0;j<m1.length ;j++ ) {
+          if(numConnecteur==1){
+            if(m1[i][j] || m2[i][j])MatB[i][j]=true;
+            else MatB[i][j]=false;
+          }
+          else if(numConnecteur==2){
+            if(m1[i][j] && m2[i][j])MatB[i][j]=true;
+            else MatB[i][j]=false;
+          }
+          else if(numConnecteur==3){
+            if(m1[i][j])MatB[i][j]=true;
+            else MatB[i][j]=false;
+          }
+          else if(numConnecteur==4){
+            if(!m1[i][j] || m2[i][j])MatB[i][j]=true;
+            else MatB[i][j]=false;
+          }
+          else {
+            if(m1[i][j]==m2[i][j])MatB[i][j]=true;
+            else MatB[i][j]=false;
+          }
+          
+        }
+        
+      }
+      return MatB;
     }
+
 
     //______________________________________________
 
@@ -162,7 +238,8 @@ public class RelationBinaire {
      résultat : le produit matriciel de m1 et m2
      */
     public static boolean[][] produit(boolean[][] m1, boolean[][] m2){
-        throw new RuntimeException("La fonction n'est pas encore implémentée !");
+        boolean[][] newMat=new boolean[m1.length][mi.length];
+        
     }
 
     //______________________________________________
