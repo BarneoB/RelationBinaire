@@ -9,33 +9,34 @@ public class RelationBinaire {
     //.........................................................................
     //________________________________________________________
     //Réalisé par Lucas
-    public RelationBinaire(int nb) {
-        this.n = nb;
-        this.matAdj = new boolean[nb][nb];
-        this.m = 0;
-        this.tabSucc = new EE[nb];
-        for (int i = 0; i < nb; i++) {
-            this.tabSucc[i] = new EE(nb);
+    public RelationBinaire(int nb){
+        this.n=nb;
+        this.matAdj=new boolean[nb][nb] ;
+        this.m=0;
+        this.tabSucc=new EE[nb];
+        for (int i=0;i<nb ;i++ ) {
+            this.tabSucc[i]=new EE(nb);
         }
     }
 
     //________________________________________________________
     //Réalisé par Lucas
-    public RelationBinaire(int nb, double p) {
-        this.n = nb;
-        this.matAdj = new boolean[nb][nb];
-        this.m = 0;
-        this.tabSucc = new EE[nb];
-        for (int i = 0; i < nb; i++) {
-            this.tabSucc[i] = new EE(nb);
+    public RelationBinaire(int nb,double p){
+        this.n=nb;
+        this.matAdj=new boolean[nb][nb] ;
+        this.m=0;
+        this.tabSucc=new EE[nb];
+        for (int i=0;i<nb ;i++ ) {
+            this.tabSucc[i]=new EE(nb);
         }
         double r;
-        for (int i = 0; i < this.n; i++) {
-            for (int j = 0; j < this.n; j++) {
-                r = Math.random();
-                if (r <= p) {
-                    this.matAdj[i][j] = true;
+        for (int i=0;i<this.n;i++) {
+            for (int j=0;j<this.n;j++){
+                r=Math.random();
+                if (r<=p){
+                    this.matAdj[i][j]=true;
                     this.tabSucc[i].ajoutPratique(j);
+                    this.m++;
                 }
             }
         }
@@ -43,25 +44,28 @@ public class RelationBinaire {
 
     //________________________________________________________
     //Réalisé par Lucas
-    public RelationBinaire(int nb, boolean egal) {
-        this.n = nb;
-        this.matAdj = new boolean[nb][nb];
-        this.m = 0;
-        this.tabSucc = new EE[nb];
-        for (int i = 0; i < nb; i++) {
-            this.tabSucc[i] = new EE(nb);
+    public RelationBinaire(int nb, boolean egal){
+        this.n=nb;
+        this.matAdj=new boolean[nb][nb] ;
+        this.m=0;
+        this.tabSucc=new EE[nb];
+        for (int i=0;i<nb ;i++ ) {
+            this.tabSucc[i]=new EE(nb);
         }
-        if (egal) {
-            for (int i = 0; i < nb; i++) {
-                this.matAdj[i][i] = true;
+        if(egal){
+            for (int i=0;i<nb ;i++ ) {
+                this.matAdj[i][i]=true;
                 this.tabSucc[i].ajoutPratique(i);
+                this.m++;
             }
-        } else {
-            for (int i = 0; i < nb; i++) {
-                for (int j = 0; j < nb; j++) {
-                    if (i <= j) {
-                        this.matAdj[i][j] = true;
+        }
+        else{
+            for (int i=0;i<nb ;i++ ) {
+                for (int j=0;j<nb ;j++ ) {
+                    if(i<=j){
+                        this.matAdj[i][j]=true;
                         this.tabSucc[i].ajoutPratique(j);
+                        this.m++;
                     }
                 }
             }
@@ -70,20 +74,21 @@ public class RelationBinaire {
 
     //________________________________________________________
     //Réalisé par Lucas
-    public RelationBinaire(boolean[][] mat) {
-        int nb = mat.length;
-        this.n = nb;
-        this.matAdj = new boolean[nb][nb];
-        this.m = 0;
-        this.tabSucc = new EE[nb];
-        for (int i = 0; i < nb; i++) {
-            this.tabSucc[i] = new EE(nb);
+    public RelationBinaire(boolean[][] mat){
+        int nb=mat.length;
+        this.n=nb;
+        this.matAdj=new boolean[nb][nb] ;
+        this.m=0;
+        this.tabSucc=new EE[nb];
+        for (int i=0;i<nb ;i++ ) {
+            this.tabSucc[i]=new EE(nb);
         }
-        for (int i = 0; i < nb; i++) {
-            for (int j = 0; j < nb; j++) {
-                if (mat[i][j]) {
-                    this.matAdj[i][j] = true;
+        for (int i=0;i<nb ;i++ ) {
+            for (int j=0;j<nb ;j++ ) {
+                if(mat[i][j]){
+                    this.matAdj[i][j]=true;
                     this.tabSucc[i].ajoutPratique(j);
+                    this.m++;
                 }
             }
         }
@@ -91,7 +96,7 @@ public class RelationBinaire {
 
     //________________________________________________________
     //Réalisé par Bryan
-    public RelationBinaire(EE[] tab) {
+    public RelationBinaire(EE[] tab){
         this(tab.length);
         int compteur = this.n;
         for (int i = 0; i < compteur; i++) {
@@ -106,62 +111,101 @@ public class RelationBinaire {
     }
     //________________________________________________________
     //Réalisé par Bryan
-    public RelationBinaire(RelationBinaire r) {
+    public RelationBinaire(RelationBinaire r){
         this.n = r.n;
-        int compteur = this.n;
         this.m = r.m;
-        this.matAdj = r.matAdj;
-        for (int i = 0; i < compteur; i++) {
-            for (int j = 0; j < compteur; j++) {
-                this.tabSucc = r.tabSucc;
+        int nb=this.n;
+        this.matAdj=new boolean[nb][nb] ;
+        this.tabSucc=new EE[nb];
+        for (int i=0;i<nb ;i++ ) {
+            this.tabSucc[i]=new EE(r.tabSucc[i]);
+        }
+        for (int i=0;i<nb;i++){
+            for (int j=0;j<nb;j++){
+                this.matAdj[i][j]=r.matAdj[i][j];
+                this.m++;
             }
         }
+
     }
     //______________________________________________
     //.........................................................................
     // Méthodes
     //.........................................................................
+//Réalisé par Lucas
+    public String toString(){
+        int nb=this.n;
+        String res="";
+        for (int i=0;i<nb ;i++ ) {
+            res+="{";
+            for (int j=0;j<nb ;j++ ) {
+                if(this.matAdj[i][j]){
+                    if(j==0){
+                        res+="1";
+                    }
+                    else{
+                        res+=",1";
+                    }
+                }
+                else{
+                    if(j==0){
+                        res+="0";
+                    }
+                    else{
+                        res+=",0";
+                    }
+                }
+            }
+            res+="}\n";
+        }
+        res+="\n{";
+        boolean premier=true;
+        for (int i=0;i<nb ;i++ ) {
+            for (int j=0;j<nb ;j++ ){
+                if(this.tabSucc[i].contient(j)){
+                    if(premier)res+="(";
+                    else{
+                        res+=",(";
+                    }
+                    res+=i+","+j+")";
+                    premier=false;
+                }
+            }
+        }
+        res+="}";
+        return res;
+    }
+    //________________________________________________________
+
+    //.........................................................................
+    // A) Logique et calcul matriciel
+    //.........................................................................
 
     //________________________________________________________
-    public static boolean[][] opBool(boolean[][] m1, boolean[][] m2, int numConnecteur) {
-        boolean[][] MatB = new boolean[m1.length][m1.length];
-        for (int i = 0; i < m1.length; i++) {
-            for (int j = 0; j < m1.length; j++) {
-                if (numConnecteur == 1) {
-                    if (m1[i][j] || m2[i][j]){
-                        MatB[i][j] = true;
-                    }
-                    else{
-                        MatB[i][j] = false;
-                    }
-                } else if (numConnecteur == 2) {
-                    if (m1[i][j] && m2[i][j]) {
-                        MatB[i][j] = true;
-                    }
-                    else{
-                        MatB[i][j] = false;
-                    }
-                } else if (numConnecteur == 3) {
-                    if (m1[i][j]){
-                        MatB[i][j] = true;
-                    }
-                    else{
-                        MatB[i][j] = false;
-                    }
-                } else if (numConnecteur == 4) {
-                    if (!m1[i][j] || m2[i][j]){
-                        MatB[i][j] = true;
-                    }
-                    else{
-                        MatB[i][j] = false;
-                    }
-                } else {
-                    if (m1[i][j] == m2[i][j]){
-                        MatB[i][j] = true;
-                    }
-                    else{
-                        MatB[i][j] = false;
-                    }
+    //Réalisé par Lucas
+    public static boolean[][] opBool(boolean[][] m1, boolean[][] m2, int numConnecteur){
+        boolean [][] MatB=new boolean[m1.length][m1.length];
+        for (int i=0;i<m1.length ;i++ ) {
+            for (int j=0;j<m1.length ;j++ ) {
+                if(numConnecteur==1){
+                    if(m1[i][j] || m2[i][j])MatB[i][j]=true;
+                    else MatB[i][j]=false;
+                }
+                else if(numConnecteur==2){
+                    if(m1[i][j] && m2[i][j])MatB[i][j]=true;
+                    else MatB[i][j]=false;
+                }
+                else if(numConnecteur==3){
+                    if(m1[i][j])MatB[i][j]=true;
+                    else MatB[i][j]=false;
+                }
+                else if(numConnecteur==4){
+                    if(!m1[i][j] || m2[i][j])MatB[i][j]=true;
+                    else MatB[i][j]=false;
+                }
+                else {
+                    if(m1[i][j]==m2[i][j])MatB[i][j]=true;
+                    else MatB[i][j]=false;
                 }
 
             }
@@ -170,104 +214,48 @@ public class RelationBinaire {
         return MatB;
     }
     //________________________________________________________
-
-    //.........................................................................
-    // A) Logique et calcul matriciel
-    //.........................................................................
-
-    /**
-     * pré-requis : m1 et m2 sont des matrices carrées de même dimension
-     * résultat : le produit matriciel de m1 et m2
-     */
+    //Réalisé par Bryan
    public static boolean[][] produit(boolean[][] m1, boolean[][] m2) {
        boolean[][] résultat = new boolean[m1.length][m1.length];
-       for(int i = 0; i >= m1.length; i ++){
-           for(int j = 0; j >= m1.length; j++){
+       for(int i = 0; i <= m1.length-1; i ++){
+           for(int j = 0; j <= m1.length-1; j++){
                if (m1[i][j] == true && m2[i][j] == true){
                    résultat[i][j] = true;
+               }else{
+                   résultat[i][j] = false;
                }
            }
        }
+       return résultat;
     }
     //________________________________________________________
-
-    /**
-     * pré-requis : m est une matrice carrée
-     * résultat : la matrice transposée de m
-     */
+    //Réalisé par Bryan
     public static boolean[][] transposee(boolean[][] m) {
-        throw new RuntimeException("La fonction n'est pas encore implémentée !");
-        //inverse lignes et les colonnes
-    }
-
-    //______________________________________________
-
-    public static void main(String[] args) {
-
-        int nb;
-        double p;
-        do {
-            Ut.afficher("\nDonner le cardinal de E (>0) : ");
-            nb = Ut.saisirEntier();
-        }
-        while (nb <= 0);
-    }
-
-    //______________________________________________
-
-
-    // B) Théorie des ensembles
-    //--------------------------
-
-    //Réalisé par Lucas
-    public String toString() {
-        int nb = this.n;
-        String res = "";
-        for (int i = 0; i < nb; i++) {
-            res += "{";
-            for (int j = 0; j < nb; j++) {
-                if (this.matAdj[i][j]) {
-                    if (j == 0) {
-                        res += "1";
-                    } else {
-                        res += ",1";
-                    }
-                } else {
-                    if (j == 0) {
-                        res += "0";
-                    } else {
-                        res += ",0";
-                    }
-                }
-            }
-            res += "}\n";
-        }
-        res += "\n{";
-        boolean premier = true;
-        for (int i = 0; i < nb; i++) {
-            for (int j = 0; j < nb; j++) {
-                if (this.tabSucc[i].contient(j)) {
-                    if (premier) res += "(";
-                    else {
-                        res += ",(";
-                    }
-                    res += i + "," + j + ")";
-                    premier = false;
-                }
+        boolean[][] résultat = new boolean[m.length][m.length];
+        for(int i = 0; i <= m.length-1; i ++){
+            for(int j = 0; j <= m.length-1; j++){
+                résultat[j][i] = m[i][j];
             }
         }
-        res += "}";
-        return res;
+        return résultat;
     }
-
     //______________________________________________
-
+    //.........................................................................
+    // B) Théories des Ensembles
+    //.........................................................................
+    //______________________________________________
     /**
      * pré-requis : aucun
      * résultat : vrai ssi this est vide
      */
     public boolean estVide() {
-        throw new RuntimeException("La fonction n'est pas encore implémentée !");
+        boolean vide = false;
+        RelationBinaire rvide = new RelationBinaire(0);
+            if (this.m == 0) {
+                System.out.println("Ensemble vide");
+                vide = true;
+            }
+        return vide;
     }
 
     //______________________________________________
@@ -514,4 +502,16 @@ public class RelationBinaire {
     public void afficheDivers() {
 
     }
+    public static void main(String[] args) {
+
+        int nb;
+        double p;
+        do {
+            Ut.afficher("\nDonner le cardinal de E (>0) : ");
+            nb = Ut.saisirEntier();
+        }
+        while (nb <= 0);
+    }
+
+    //______________________________________________
 } // fin RelationBinaire
