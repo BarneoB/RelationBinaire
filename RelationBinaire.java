@@ -347,7 +347,7 @@ public class RelationBinaire {
      * résultat : l'intersection de this et r
      */
     public RelationBinaire intersection(RelationBinaire r) {
-        throw new RuntimeException("La fonction n'est pas encore implémentée !");
+       return new RelationBinaire(opBool(this.matAdj,r.matAdj, 2));
     }
 
     //______________________________________________
@@ -378,7 +378,7 @@ public class RelationBinaire {
      * résultat : vrai ssi this est incluse dans r
      */
     public boolean estIncluse(RelationBinaire r) {
-        throw new RuntimeException("La fonction n'est pas encore implémentée !");
+        return new RelationBinaire(opBool(this.matAdj,r.matAdj, 4)).estPleine();
     }
 
     //______________________________________________
@@ -392,7 +392,7 @@ public class RelationBinaire {
      * résultat : vrai ssi this est égale à r
      */
     public boolean estEgale(RelationBinaire r) {
-        throw new RuntimeException("La fonction n'est pas encore implémentée !");
+        return new RelationBinaire(opBool(this.matAdj,r.matAdj, 5)).estPleine();
     }
 
     //______________________________________________
