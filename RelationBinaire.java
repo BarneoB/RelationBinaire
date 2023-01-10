@@ -123,7 +123,6 @@ public class RelationBinaire {
         for (int i=0;i<nb;i++){
             for (int j=0;j<nb;j++){
                 this.matAdj[i][j]=r.matAdj[i][j];
-                this.m++;
             }
         }
 
