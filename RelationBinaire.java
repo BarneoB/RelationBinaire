@@ -336,8 +336,8 @@ public class RelationBinaire {
      * pré-requis : this.n = r.n
      * résultat : l'union de this et r
      */
-    public RelationBinaire union(RelationBinaire r) {
-        throw new RuntimeException("La fonction n'est pas encore implémentée !");
+    public RelationBinaire union(RelationBinaire r){
+        return new RelationBinaire(opBool(this.matAdj,r.matAdj,1));
     }
 
     //______________________________________________
@@ -356,8 +356,8 @@ public class RelationBinaire {
      * pré-requis : aucun
      * résultat : la relation complémentaire de this
      */
-    public RelationBinaire complementaire() {
-        throw new RuntimeException("La fonction n'est pas encore implémentée !");
+    public RelationBinaire complementaire(){
+        return new RelationBinaire(opBool(this.matAdj,new RelationBinaire(this.n).matAdj,3));
     }
 
     //______________________________________________
@@ -366,9 +366,8 @@ public class RelationBinaire {
      * pré-requis : this.n = r.n
      * résultat : la différence de this et r
      */
-    public RelationBinaire difference(RelationBinaire r) {
-        throw new RuntimeException("La fonction n'est pas encore implémentée !");
-
+    public RelationBinaire difference(RelationBinaire r){
+        return this.intersection(r).complementaire().intersection(this);
     }
 
     //______________________________________________
@@ -402,8 +401,8 @@ public class RelationBinaire {
      * résultat : l'ensemble des successeurs de x dans this, "indépendant"
      * (c'est-à-dire dans une autre zône mémoire) de l'attribut this.tabSucc
      */
-    public EE succ(int x) {
-        throw new RuntimeException("La fonction n'est pas encore implémentée !");
+    public EE succ(int x){
+        return new EE(this.tabSucc[x]);
     }
 
     //______________________________________________
