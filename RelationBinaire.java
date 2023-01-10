@@ -298,21 +298,27 @@ public class RelationBinaire {
      * résultat : une nouvelle relation binaire obtenue à partir de this en ajoutant
      * les couples de la forme  (x,x) qui n'y sont pas déjà
      */
-    public RelationBinaire avecBoucles() {
-
-        throw new RuntimeException("La fonction n'est pas encore implémentée !");
+    public RelationBinaire avecBoucles(){
+        for (int i=0;i<this.n ;i++ ) {
+            if(!this.matAdj[i][i]){
+                this.ajouteCouple(i,i);
+            }
+        }
     }
-
     //______________________________________________
 
-    /**
-     * pré-requis : aucun
-     * résultat : une nouvelle relation binaire obtenue à partir de this en enlèvant
-     * les couples de la forme  (x,x) qui y sont
-     * //DERNIERE MODIF
+
+    /** pré-requis : aucun
+     résultat : une nouvelle relation binaire obtenue à partir de this en enlèvant
+     les couples de la forme  (x,x) qui y sont
+     //DERNIERE MODIF
      */
-    public RelationBinaire sansBoucles() {
-        throw new RuntimeException("La fonction n'est pas encore implémentée !");
+    public RelationBinaire sansBoucles(){
+        for (int i=0;i<this.n ;i++ ) {
+            if(this.matAdj[i][i]){
+                this.enleveCouple(i,i);
+            }
+        }
     }
 
     //______________________________________________
