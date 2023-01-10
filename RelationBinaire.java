@@ -258,8 +258,9 @@ public class RelationBinaire {
      * pré-requis : aucun
      * résultat : vrai ssi this est pleinee (contient tous les couples d'éléments de E)
      */
-    public boolean estPleine() {
-        throw new RuntimeException("La fonction n'est pas encore implémentée !");
+    public boolean estPleine(){
+        if(this.m==this.n*this.n) return true;
+        return false;
     }
 
     //______________________________________________
