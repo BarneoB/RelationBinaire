@@ -269,8 +269,8 @@ public class RelationBinaire {
      * pré-requis : aucun
      * résultat : vrai ssi (x,y) appartient à this
      */
-    public boolean appartient(int x, int y) {
-        throw new RuntimeException("La fonction n'est pas encore implémentée !");
+     public boolean appartient(int x, int y) {
+        return this.matAdj[x][y];
     }
 
     //______________________________________________
@@ -279,8 +279,12 @@ public class RelationBinaire {
      * pré-requis : 0 <= x < this.n et 0 <= y < this.n
      * résultat : ajoute (x,y) à this s'il n'y est pas déjà
      */
-    public void ajouteCouple(int x, int y) {
-
+     public void ajouteCouple(int x, int y) {
+        if(!this.matAdj[x][y]){
+            this.matAdj[x][y] = true;
+            this.tabSucc[x].ajoutElt(y);
+            this.m++;
+        }
     }
 
     //______________________________________________
@@ -289,8 +293,12 @@ public class RelationBinaire {
      * pré-requis : 0 <= x < this.n et 0 <= y < this.n
      * résultat : enlève (x,y) de this s'il y est
      */
-    public void enleveCouple(int x, int y) {
-
+   public void enleveCouple(int x, int y) {
+        if(this.matAdj[x][y]){
+            this.matAdj[x][y] = false;
+            this.tabSucc[x].retraitElt(y);
+            this.m--;
+        }
     }
     //______________________________________________
 
