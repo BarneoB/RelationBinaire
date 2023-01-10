@@ -269,7 +269,7 @@ public class RelationBinaire {
      * pré-requis : aucun
      * résultat : vrai ssi (x,y) appartient à this
      */
-     public boolean appartient(int x, int y) {
+    public boolean appartient(int x, int y) {
         return this.matAdj[x][y];
     }
 
