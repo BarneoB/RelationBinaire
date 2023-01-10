@@ -408,19 +408,23 @@ public class RelationBinaire {
     //______________________________________________
 
 
-    // D) Relation binaire
-    //---------------------
-
-    /**
-     * pré-requis : 0 <= x < this.n
-     * résultat : l'ensemble des prédécesseurs de x dans this
+    /** pré-requis : 0 <= x < this.n
+     résultat : l'ensemble des prédécesseurs de x dans this
      */
-    public EE pred(int x) {
-        throw new RuntimeException("La fonction n'est pas encore implémentée !");
+    public EE pred(int x){
+        EE newE=new EE(this.n);
+        for (int i=0;i<this.n ;i++ ) {
+            if(this.tabSucc[i].contient(x))newE.ajoutElt(i);
+        }
+        return newE;
     }
 
     //______________________________________________
 
+
+    // D) Relation binaire
+    //---------------------
+    
     /**
      * pré-requis : aucun
      * résultat : vrai ssi this est réflexive
