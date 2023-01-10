@@ -248,13 +248,8 @@ public class RelationBinaire {
      * résultat : vrai ssi this est vide
      */
     public boolean estVide() {
-        boolean vide = false;
-        RelationBinaire rvide = new RelationBinaire(0);
-            if (this.m == 0) {
-                System.out.println("Ensemble vide");
-                vide = true;
-            }
-        return vide;
+        if (this.m==0) return true;
+        return false;
     }
 
     //______________________________________________
