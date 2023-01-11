@@ -308,11 +308,13 @@ public class RelationBinaire {
      * les couples de la forme  (x,x) qui n'y sont pas déjà
      */
     public RelationBinaire avecBoucles(){
-        for (int i=0;i<this.n ;i++ ) {
-            if(!this.matAdj[i][i]){
-                this.ajouteCouple(i,i);
+        RelationBinaire newR=new RelationBinaire(this);
+        for (int i=0;i<newR.n ;i++ ) {
+            if(!newR.matAdj[i][i]){
+                newR.ajouteCouple(i,i);
             }
         }
+        return newR;
     }
     //______________________________________________
 
@@ -322,12 +324,15 @@ public class RelationBinaire {
      les couples de la forme  (x,x) qui y sont
      //DERNIERE MODIF
      */
-    public RelationBinaire sansBoucles(){
-        for (int i=0;i<this.n ;i++ ) {
-            if(this.matAdj[i][i]){
-                this.enleveCouple(i,i);
+     public RelationBinaire sansBoucles(){
+        RelationBinaire newR=new RelationBinaire(this);
+        for (int i=0;i<newR.n ;i++ ) {
+            if(newR.matAdj[i][i]){
+                newR.enleveCouple(i,i);
             }
         }
+        return newR;
+
     }
 
     //______________________________________________
@@ -449,8 +454,8 @@ public class RelationBinaire {
      * pré-requis : aucun
      * résultat : vrai ssi this est symétrique
      */
-    public boolean estSymetrique() {
-        throw new RuntimeException("La fonction n'est pas encore implémentée !");
+   public boolean estSymetrique() {
+        return new RelationBinaire(transposee(this.matAdj)).estEgale(this);
     }
 
     //______________________________________________
