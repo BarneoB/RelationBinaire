@@ -465,7 +465,7 @@ public class RelationBinaire {
      * résultat : vrai ssi this est antisymétrique
      */
     public boolean estAntisymetrique() {
-        throw new RuntimeException("La fonction n'est pas encore implémentée !");
+        return new RelationBinaire(opBool(this.matAdj,transposee(this.sansBoucles().matAdj), 2)).estVide();
     }
 
     //______________________________________________
