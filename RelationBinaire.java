@@ -485,7 +485,7 @@ public class RelationBinaire {
      * résultat : vrai ssi this est une relation d'ordre
      */
     public boolean estRelOrdre() {
-        throw new RuntimeException("La fonction n'est pas encore implémentée !");
+        return this.estReflexive() && this.estAntisymetrique() && this.estTransitive();
     }
 
     //______________________________________________
