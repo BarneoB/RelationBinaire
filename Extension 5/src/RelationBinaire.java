@@ -1,4 +1,4 @@
-public class RelationBinaire {
+public class RelationBinaire_3_2 {
     public boolean[][] matAdj;  // matrice d'adjacence de R
     public EE[] tabSucc;    // tableau des ensembles de successeurs
     private int n;           // n > 0, E = {0,1,2, ..., n-1}
@@ -195,7 +195,7 @@ public class RelationBinaire {
                     else MatB[i][j]=false;
                 }
                 else if(numConnecteur==3){
-                    if(m1[i][j])MatB[i][j]=true;
+                    if(!m1[i][j])MatB[i][j]=true;
                     else MatB[i][j]=false;
                 }
                 else if(numConnecteur==4){
@@ -214,15 +214,16 @@ public class RelationBinaire {
     }
     //________________________________________________________
     //Réalisé par Bryan
-    public static boolean[][] produit(boolean[][] m1, boolean[][] m2) {
+   public static boolean[][] produit(boolean[][] m1, boolean[][] m2) {
         boolean[][] résultat = new boolean[m1.length][m1.length];
-        for(int i = 0; i <= m1.length-1; i ++){
-            for(int j = 0; j <= m1.length-1; j++){
-                if (m1[i][j] == true && m2[i][j] == true){
-                    résultat[i][j] = true;
-                }else{
-                    résultat[i][j] = false;
+        boolean valeur=false;
+        for (int i=0;i<m1.length ;i++ ) {
+            for (int j=0;j<m1.length;j++ ) {
+                valeur=false;
+                for (int x=0;x<m1[0].length ; x++) {
+                    valeur=valeur || (m1[i][x] && m2[x][j]);
                 }
+                résultat[i][j]=valeur;
             }
         }
         return résultat;
@@ -308,15 +309,8 @@ public class RelationBinaire {
      * les couples de la forme  (x,x) qui n'y sont pas déjà
      */
     public RelationBinaire avecBoucles(){
-        RelationBinaire newR=new RelationBinaire(this);
-        for (int i=0;i<newR.n ;i++ ) {
-            if(!newR.matAdj[i][i]){
-                newR.ajouteCouple(i,i);
-            }
-        }
-        return newR;
+        return new RelationBinaire(opBool(new RelationBinaire(this.n,true).matAdj,this.matAdj,1));
     }
-
     //______________________________________________
 
 
@@ -326,14 +320,7 @@ public class RelationBinaire {
      //DERNIERE MODIF
      */
     public RelationBinaire sansBoucles(){
-        RelationBinaire newR=new RelationBinaire(this);
-        for (int i=0;i<newR.n ;i++ ) {
-            if(newR.matAdj[i][i]){
-                newR.enleveCouple(i,i);
-            }
-        }
-        return newR;
-
+        return new RelationBinaire(opBool(opBool(this.matAdj,new RelationBinaire(this.n,true).matAdj, 4),this.matAdj,3));
     }
 
     //______________________________________________
@@ -353,7 +340,7 @@ public class RelationBinaire {
      * résultat : l'intersection de this et r
      */
     public RelationBinaire intersection(RelationBinaire r) {
-        return new RelationBinaire(opBool(this.matAdj,r.matAdj, 2));
+       return new RelationBinaire(opBool(this.matAdj,r.matAdj, 2));
     }
 
     //______________________________________________
@@ -414,35 +401,38 @@ public class RelationBinaire {
     //______________________________________________
 
 
-    // D) Relation binaire
-    //---------------------
-
-    /**
-     * pré-requis : 0 <= x < this.n
-     * résultat : l'ensemble des prédécesseurs de x dans this
+    /** pré-requis : 0 <= x < this.n
+     résultat : l'ensemble des prédécesseurs de x dans this
      */
-    public EE pred(int x) {
-        throw new RuntimeException("La fonction n'est pas encore implémentée !");
+    public EE pred(int x){
+        EE newE=new EE(this.n);
+        for (int i=0;i<this.n ;i++ ) {
+            if(this.tabSucc[i].contient(x))newE.ajoutElt(i);
+        }
+        return newE;
     }
 
     //______________________________________________
 
+
+    // D) Relation binaire
+    //---------------------
+    
     /**
      * pré-requis : aucun
      * résultat : vrai ssi this est réflexive
      */
-    public boolean estReflexive() {
-        throw new RuntimeException("La fonction n'est pas encore implémentée !");
+    public boolean estReflexive(){
+        return this.estEgale(this.avecBoucles());
     }
-
     //______________________________________________
 
-    /**
-     * pré-requis : aucun
-     * résultat : vrai ssi this est antiréflexive
+
+    /** pré-requis : aucun
+     résultat : vrai ssi this est antiréflexive
      */
-    public boolean estAntireflexive() {
-        throw new RuntimeException("La fonction n'est pas encore implémentée !");
+    public boolean estAntireflexive(){
+        return this.estEgale(this.sansBoucles());
     }
 
     //______________________________________________
@@ -451,7 +441,7 @@ public class RelationBinaire {
      * pré-requis : aucun
      * résultat : vrai ssi this est symétrique
      */
-    public boolean estSymetrique() {
+   public boolean estSymetrique() {
         return new RelationBinaire(transposee(this.matAdj)).estEgale(this);
     }
 
@@ -472,7 +462,23 @@ public class RelationBinaire {
      * résultat : vrai ssi this est transitive
      */
     public boolean estTransitive() {
-        throw new RuntimeException("La fonction n'est pas encore implémentée !");
+        boolean trans=true;
+        int i=0;
+        EE s;
+        while(i<this.n && trans){
+            s=this.succ(i);
+            int x=0;
+            while(x<this.n && trans) {
+                if(s.contient(x)){
+                    if(!tabSucc[x].estInclus(s)){
+                        trans=false;
+                    }
+                }
+                x++;
+            }
+            i++;
+        }
+        return trans;
     }
 
     //______________________________________________
@@ -482,9 +488,7 @@ public class RelationBinaire {
      * résultat : vrai ssi this est une relation d'ordre
      */
     public boolean estRelOrdre() {
-        if(this.estReflexive() && this.estAntisymetrique() && this.estTransitive()){
-            return true;
-        }else return false;
+        return this.estTransitive() && this.estAntisymetrique() && this.estReflexive();
     }
 
     //______________________________________________
@@ -504,7 +508,27 @@ public class RelationBinaire {
      * résultat : la fermeture transitive de this
      */
     public RelationBinaire ferTrans() {
-        throw new RuntimeException("La fonction n'est pas encore implémentée !");
+        RelationBinaire trans=new RelationBinaire(this);
+        EE s;
+        EE s2;
+        for (int i=0;i<trans.n ;i++ ) {
+            for (int x=0;x<trans.n ;x++ ) {
+                s=trans.succ(i);
+                if(s.contient(x)){
+                    s2=trans.succ(x);
+                    for (int j=0;j<trans.n ;j++ ) {
+                        if(s2.contient(j) && !s.contient(j)){
+                            s.ajoutElt(j);
+                            trans.tabSucc[i].ajoutElt(j);
+                            trans.m++;
+                            trans.matAdj[i][j]=true;
+                        }
+                    }
+                }
+            }
+        }
+        return trans;
+        
     }
 
     //______________________________________________
