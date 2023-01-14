@@ -362,7 +362,7 @@ public class RelationBinaire {
      * résultat : la relation complémentaire de this
      */
     public RelationBinaire complementaire(){
-        return new RelationBinaire(opBool(this.matAdj,new RelationBinaire(this.n).matAdj,3));
+        return new RelationBinaire(opBool(this.matAdj,this.matAdj,3));
     }
 
     //______________________________________________
@@ -372,7 +372,6 @@ public class RelationBinaire {
      * résultat : la différence de this et r
      */
     public RelationBinaire difference(RelationBinaire r){
-        return this.intersection(r).complementaire().intersection(this);
     }
 
     //______________________________________________
@@ -382,7 +381,18 @@ public class RelationBinaire {
      * résultat : vrai ssi this est incluse dans r
      */
     public boolean estIncluse(RelationBinaire r) {
-        return new RelationBinaire(opBool(this.matAdj,r.matAdj, 4)).estPleine();
+        int j=0;
+        int i;
+        boolean incluse=true;
+        while(j<this.n && incluse){
+            i=0;
+            while(i<this.n && incluse){
+                if(this.matAdj[j][i] && !r.matAdj[j][i])incluse=false;
+                i++;
+            }
+            j++;
+        }
+        return incluse;
     }
 
     //______________________________________________
