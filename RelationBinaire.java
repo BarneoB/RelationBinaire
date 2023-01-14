@@ -406,7 +406,18 @@ public class RelationBinaire {
      * résultat : vrai ssi this est égale à r
      */
     public boolean estEgale(RelationBinaire r) {
-        return new RelationBinaire(opBool(this.matAdj,r.matAdj, 5)).estPleine();
+        int j=0;
+        int i;
+        boolean egale=true;
+        while(j<this.n && egale){
+            i=0;
+            while(i<this.n && egale){
+                if(this.matAdj[j][i] != r.matAdj[j][i])egale=false;
+                i++;
+            }
+            j++;
+        }
+        return egale;
     }
 
     //______________________________________________
@@ -445,7 +456,6 @@ public class RelationBinaire {
      * résultat : vrai ssi this est réflexive
      */
     public boolean estReflexive() {
-        throw new RuntimeException("La fonction n'est pas encore implémentée !");
     }
 
     //______________________________________________
