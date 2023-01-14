@@ -371,9 +371,17 @@ public class RelationBinaire {
      * pré-requis : this.n = r.n
      * résultat : la différence de this et r
      */
-    public RelationBinaire difference(RelationBinaire r){
+   public RelationBinaire difference(RelationBinaire r){
+        boolean[][] mat1 = new boolean[this.n][this.n];
+        for (int i = 0; i < this.n; i++){
+            for (int j = 0; j < this.n; j++){
+                if (this.matAdj[i][j] && !r.matAdj[i][j]) {
+                    mat1[i][j] = true;
+                }
+            }
+        }
+        return new RelationBinaire(mat1);
     }
-
     //______________________________________________
 
     /**
@@ -455,7 +463,16 @@ public class RelationBinaire {
      * pré-requis : aucun
      * résultat : vrai ssi this est réflexive
      */
-    public boolean estReflexive() {
+   public boolean estReflexive() {
+        boolean Reflexive=true;
+        int i = 0;
+        while (i< this.n && Reflexive){
+            if (!matAdj[i][i]){
+                Reflexive = false;
+            }
+            i++;
+        }
+        return Reflexive;
     }
 
     //______________________________________________
@@ -464,8 +481,16 @@ public class RelationBinaire {
      * pré-requis : aucun
      * résultat : vrai ssi this est antiréflexive
      */
-    public boolean estAntireflexive() {
-        throw new RuntimeException("La fonction n'est pas encore implémentée !");
+   public boolean estAntireflexive() {
+        boolean AReflexive=true;
+        int i = 0;
+        while (i< this.n && AReflexive){
+            if (matAdj[i][i]){
+                AReflexive = false;
+            }
+            i++;
+        }
+        return AReflexive;
     }
 
     //______________________________________________
@@ -474,8 +499,20 @@ public class RelationBinaire {
      * pré-requis : aucun
      * résultat : vrai ssi this est symétrique
      */
-   public boolean estSymetrique() {
-        return new RelationBinaire(transposee(this.matAdj)).estEgale(this);
+    public boolean estSymetrique() {
+        boolean Symetrique = true;
+        int i = 0;
+        int j = 0;
+        while (i< this.n && Symetrique){
+            while(j< this.n && Symetrique){
+                if (this.matAdj[i][j] != this.matAdj[j][i]){
+                    Symetrique = false;
+                }
+                j++;
+            }
+            i++;
+        }
+        return Symetrique;
     }
 
     //______________________________________________
@@ -485,7 +522,19 @@ public class RelationBinaire {
      * résultat : vrai ssi this est antisymétrique
      */
     public boolean estAntisymetrique() {
-        return new RelationBinaire(opBool(this.matAdj,transposee(this.sansBoucles().matAdj), 2)).estVide();
+        boolean ASymetrique = true;
+        int i = 0;
+        int j = 0;
+        while (i< this.n && ASymetrique){
+            while(j< this.n && ASymetrique){
+                if (this.matAdj[i][j] && this.matAdj[j][i]){
+                    ASymetrique = false;
+                }
+                j++;
+            }
+            i++;
+        }
+        return ASymetrique;
     }
 
     //______________________________________________
@@ -495,7 +544,23 @@ public class RelationBinaire {
      * résultat : vrai ssi this est transitive
      */
     public boolean estTransitive() {
-        throw new RuntimeException("La fonction n'est pas encore implémentée !");
+        boolean trans=true;
+        int i=0;
+        EE s;
+        while(i<this.n && trans){
+            s=this.succ(i);
+            int x=0;
+            while(x<this.n && trans) {
+                if(s.contient(x)){
+                    if(!tabSucc[x].estInclus(s)){
+                        trans=false;
+                    }
+                }
+                x++;
+            }
+            i++;
+        }
+        return trans;
     }
 
     //______________________________________________
