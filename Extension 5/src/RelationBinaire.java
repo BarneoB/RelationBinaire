@@ -1,4 +1,4 @@
-public class RelationBinaire_3_2 {
+public class RelationBinaire {
     public boolean[][] matAdj;  // matrice d'adjacence de R
     public EE[] tabSucc;    // tableau des ensembles de successeurs
     private int n;           // n > 0, E = {0,1,2, ..., n-1}
@@ -8,7 +8,6 @@ public class RelationBinaire_3_2 {
     // CONSTRUCTEURS
     //.........................................................................
     //________________________________________________________
-    //Réalisé par Lucas
     public RelationBinaire(int nb){
         this.n=nb;
         this.matAdj=new boolean[nb][nb] ;
@@ -20,7 +19,6 @@ public class RelationBinaire_3_2 {
     }
 
     //________________________________________________________
-    //Réalisé par Lucas
     public RelationBinaire(int nb,double p){
         this.n=nb;
         this.matAdj=new boolean[nb][nb] ;
@@ -43,7 +41,6 @@ public class RelationBinaire_3_2 {
     }
 
     //________________________________________________________
-    //Réalisé par Lucas
     public RelationBinaire(int nb, boolean egal){
         this.n=nb;
         this.matAdj=new boolean[nb][nb] ;
@@ -73,7 +70,6 @@ public class RelationBinaire_3_2 {
     }
 
     //________________________________________________________
-    //Réalisé par Lucas
     public RelationBinaire(boolean[][] mat){
         int nb=mat.length;
         this.n=nb;
@@ -95,7 +91,6 @@ public class RelationBinaire_3_2 {
     }
 
     //________________________________________________________
-    //Réalisé par Bryan
     public RelationBinaire(EE[] tab){
         this(tab.length);
         int compteur = this.n;
@@ -110,7 +105,6 @@ public class RelationBinaire_3_2 {
         }
     }
     //________________________________________________________
-    //Réalisé par Bryan
     public RelationBinaire(RelationBinaire r){
         this.n = r.n;
         this.m = r.m;
@@ -131,7 +125,6 @@ public class RelationBinaire_3_2 {
     //.........................................................................
     // Méthodes
     //.........................................................................
-//Réalisé par Lucas
     public String toString(){
         int nb=this.n;
         String res="";
@@ -181,7 +174,6 @@ public class RelationBinaire_3_2 {
     //.........................................................................
 
     //________________________________________________________
-    //Réalisé par Lucas
     public static boolean[][] opBool(boolean[][] m1, boolean[][] m2, int numConnecteur){
         boolean [][] MatB=new boolean[m1.length][m1.length];
         for (int i=0;i<m1.length ;i++ ) {
@@ -213,7 +205,6 @@ public class RelationBinaire_3_2 {
         return MatB;
     }
     //________________________________________________________
-    //Réalisé par Bryan
    public static boolean[][] produit(boolean[][] m1, boolean[][] m2) {
         boolean[][] résultat = new boolean[m1.length][m1.length];
         boolean valeur=false;
@@ -229,7 +220,6 @@ public class RelationBinaire_3_2 {
         return résultat;
     }
     //________________________________________________________
-    //Réalisé par Bryan
     public static boolean[][] transposee(boolean[][] m) {
         boolean[][] résultat = new boolean[m.length][m.length];
         for(int i = 0; i <= m.length-1; i ++){
@@ -309,6 +299,15 @@ public class RelationBinaire_3_2 {
      * les couples de la forme  (x,x) qui n'y sont pas déjà
      */
     public RelationBinaire avecBoucles(){
+        RelationBinaire Boucles = new RelationBinaire(this);
+        for (int i=0;i<this.n ;i++ ) {
+            if(!this.matAdj[i][i]){
+                Boucles.ajouteCouple(i,i);
+            }
+        }
+        return Boucles;
+    }
+    public RelationBinaire avecBouclesBis(){
         return new RelationBinaire(opBool(new RelationBinaire(this.n,true).matAdj,this.matAdj,1));
     }
     //______________________________________________
@@ -320,6 +319,15 @@ public class RelationBinaire_3_2 {
      //DERNIERE MODIF
      */
     public RelationBinaire sansBoucles(){
+        RelationBinaire Boucles = new RelationBinaire(this);
+        for (int i=0;i<this.n ;i++ ) {
+            if(this.matAdj[i][i]){
+                Boucles.enleveCouple(i,i);
+            }
+        }
+        return Boucles;
+    }
+    public RelationBinaire sansBouclesBis(){
         return new RelationBinaire(opBool(opBool(this.matAdj,new RelationBinaire(this.n,true).matAdj, 4),this.matAdj,3));
     }
 
@@ -360,6 +368,17 @@ public class RelationBinaire_3_2 {
      * résultat : la différence de this et r
      */
     public RelationBinaire difference(RelationBinaire r){
+        boolean[][] mat1 = new boolean[this.n][this.n];
+        for (int i = 0; i < this.n; i++){
+            for (int j = 0; j < this.n; j++){
+                if (this.matAdj[i][j] && !r.matAdj[i][j]) {
+                    mat1[i][j] = true;
+                }
+            }
+        }
+        return new RelationBinaire(mat1);
+    }
+    public RelationBinaire differenceBis(RelationBinaire r){
         return this.intersection(r).complementaire().intersection(this);
     }
 
@@ -411,6 +430,9 @@ public class RelationBinaire_3_2 {
         }
         return newE;
     }
+    public EE predBis(int x){
+        return new RelationBinaire(transposee(this.matAdj)).succ(x);
+    }
 
     //______________________________________________
 
@@ -422,7 +444,18 @@ public class RelationBinaire_3_2 {
      * pré-requis : aucun
      * résultat : vrai ssi this est réflexive
      */
-    public boolean estReflexive(){
+    public boolean estReflexive() {
+        boolean Reflexive=true;
+        int i = 0;
+        while (i< this.n && Reflexive){
+            if (!matAdj[i][i]){
+                Reflexive = false;
+            }
+            i++;
+        }
+        return Reflexive;
+    }
+    public boolean estReflexiveBis(){
         return this.estEgale(this.avecBoucles());
     }
     //______________________________________________
@@ -431,7 +464,18 @@ public class RelationBinaire_3_2 {
     /** pré-requis : aucun
      résultat : vrai ssi this est antiréflexive
      */
-    public boolean estAntireflexive(){
+    public boolean estAntireflexive() {
+        boolean AReflexive=true;
+        int i = 0;
+        while (i< this.n && AReflexive){
+            if (matAdj[i][i]){
+                AReflexive = false;
+            }
+            i++;
+        }
+        return AReflexive;
+    }
+    public boolean estAntireflexiveBis(){
         return this.estEgale(this.sansBoucles());
     }
 
@@ -441,7 +485,22 @@ public class RelationBinaire_3_2 {
      * pré-requis : aucun
      * résultat : vrai ssi this est symétrique
      */
-   public boolean estSymetrique() {
+    public boolean estSymetrique() {
+        boolean Symetrique = true;
+        int i = 0;
+        int j = 0;
+        while (i< this.n && Symetrique){
+            while(j< this.n && Symetrique){
+                if (this.matAdj[i][j] != this.matAdj[j][i]){
+                    Symetrique = false;
+                }
+                j++;
+            }
+            i++;
+        }
+        return Symetrique;
+    }
+   public boolean estSymetriqueBis() {
         return new RelationBinaire(transposee(this.matAdj)).estEgale(this);
     }
 
@@ -452,6 +511,21 @@ public class RelationBinaire_3_2 {
      * résultat : vrai ssi this est antisymétrique
      */
     public boolean estAntisymetrique() {
+        boolean ASymetrique = true;
+        int i = 0;
+        int j = 0;
+        while (i< this.n && ASymetrique){
+            while(j< this.n && ASymetrique){
+                if (this.matAdj[i][j] && this.matAdj[j][i]){
+                    ASymetrique = false;
+                }
+                j++;
+            }
+            i++;
+        }
+        return ASymetrique;
+    }
+    public boolean estAntisymetriqueBis() {
         return new RelationBinaire(opBool(this.matAdj,transposee(this.sansBoucles().matAdj), 2)).estVide();
     }
 
@@ -500,7 +574,6 @@ public class RelationBinaire_3_2 {
     public RelationBinaire hasse() {
         throw new RuntimeException("La fonction n'est pas encore implémentée !");
     }
-
     //______________________________________________
 
     /**
