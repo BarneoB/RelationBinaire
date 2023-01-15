@@ -613,7 +613,27 @@ public class RelationBinaire {
      * Hasse, fermeture transitive de Hasse et fermeture transitive de Hasse avec boucles (sous 2 formes aussi)
      */
     public void afficheDivers() {
-
+        System.out.println(this);
+        if(this.estReflexive()){
+            System.out.println("La Relation Binaire est : réflexive");
+        }
+        if(this.estAntireflexive()){
+            System.out.println("La Relation Binaire est : antiréflexive");
+        }
+        if(this.estSymetrique()){
+            System.out.println("La Relation Binaire est : Symétrique");
+        }
+        if(this.estAntisymetrique()){
+            System.out.println("La Relation Binaire est : réflexive");
+        }
+        if(this.estTransitive()){
+            System.out.println("La Relation Binaire est : transitive");
+        }
+        if(this.estRelOrdre()){
+            System.out.println("La Relation Binaire est : Une relation d'ordre");
+        }
+        System.out.println("La Fermeture transitive de la Relation binaire est : ");
+        System.out.println(this.ferTrans());
     }
     public static void main(String[] args) {
 
